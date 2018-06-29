@@ -13,7 +13,7 @@ json-текст или json-файл с информацией о ближайш
 # Как запустить
 
 Скрипт требует для своей работы установленного интерпретатора Python версии 3.5
-
+    
 Запуск на Linux:
 
 $ python bars.py {source_file} [destination_file]
@@ -22,9 +22,18 @@ $ python bars.py {source_file} [destination_file]
 
 ```bash
 
-$ python bars.py bars.json # Выведет результат работы в консоль
+$ python bars.py bars.json 
+Choose option:
+1 - Find the biggest bar.
+2 - Find the smallest one.
+3 - Find the closest one.
+Type option number: 3
+
+longitude: 37.57
+latitude: 55.77
+# Выведет результат работы в консоль
 # Пример ответа скрипта:
- {"geometry": {"coordinates": [37.5506184192192, 55.75909089705614], "type": "Point"}, "properties": {"DatasetId": 1796, "VersionNumber": 2, "ReleaseNumber": 2, "RowId": "0f82e78b-58a2-40a4-802a-77373093f624", "Attributes": {"global_id": 20660867, "Name": "Бар «Разлив»", "IsNetObject": "нет", "OperatingCompany": null, "AdmArea": "Центральный административный округ", "District": "Пресненский район", "Address": "улица Сергея Макеева, дом 4", "PublicPhone": [{"PublicPhone": "(499) 256-41-20"}], "SeatsCount": 15, "SocialPrivileges": "нет"}}, "type": "Feature"} 
+ {"geometry": {"coordinates": [37.58699411741135, 55.77085237743563], "type": "Point"}, "properties": {"DatasetId": 1796, "VersionNumber": 2, "ReleaseNumber": 2, "RowId": "4b5eb176-f50c-4610-b3b0-de68378e53ce", "Attributes": {"global_id": 20731657, "Name": "Бар «ДЖЕМ»", "IsNetObject": "нет", "OperatingCompany": null, "AdmArea": "Центральный административный округ", "District": "Пресненский район", "Address": "Васильевская улица, дом 4", "PublicPhone": [{"PublicPhone": "(499) 254-28-22"}], "SeatsCount": 56, "SocialPrivileges": "нет"}}, "type": "Feature"}
 
 $ python bars.py bars.json bars_out.json # Выведет результат работы в файл bars_out.json 
 ```
