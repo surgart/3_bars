@@ -1,14 +1,11 @@
 # Ближайшие бары
 
 Для поиска ближайшего бара используются:
-
-Входные данные:
 1. Текущие координаты пользователя
 2. Координаты баров из json файла
-
+    
 Выходные данные:
 json-текст или json-файл с информацией о ближайшем баре
-
 
 # Как запустить
 
@@ -17,8 +14,9 @@ json-текст или json-файл с информацией о ближайш
 Запуск на Linux:
 
 $ python bars.py {source_file} [destination_file]
-где source_file - json-файл источник данных,
-    destination_file - json-файл выходных данных
+
+ где source_file - json-файл источник данных,
+ destination_file - json-файл выходных данных
 
 ```bash
 
@@ -28,7 +26,6 @@ Choose option:
 2 - Find the smallest one.
 3 - Find the closest one.
 Type option number: 3
-
 longitude: 37.57
 latitude: 55.77
 # Выведет результат работы в консоль
