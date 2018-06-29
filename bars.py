@@ -5,49 +5,57 @@ import math
 
 
 def load_data(filepath):
-    with open(filepath, encoding='utf-8') as f:
-        data = json.load(f)
+    with open(filepath, encoding='utf-8') as file:
+        data = json.load(file)
     return data
 
 
 def get_biggest_bar(data):
-    l = [el['properties']['Attributes']['SeatsCount']
-         for el in data['features']]
-    i = l.index(max(l, key=abs))
-    return data['features'][i]
+    bars_seats_count = [bar['properties']['Attributes']['SeatsCount']
+                        for bar in data['features']]
+    index_of_bar = bars_seats_count.index(max(bars_seats_count, key=abs))
+    return data['features'][index_of_bar]
 
 
 def get_smallest_bar(data):
-    l = [el['properties']['Attributes']['SeatsCount']
-         for el in data['features']]
-    i = l.index(min(l, key=abs))
-    return data['features'][i]
+    bars_seats_count = [bar['properties']['Attributes']['SeatsCount']
+                        for bar in data['features']]
+    index_of_bar = bars_seats_count.index(min(bars_seats_count, key=abs))
+    return data['features'][index_of_bar]
 
 
-def get_distance(lon1, lat1, lon2, lat2):
-    rad_lon1 = lon1 * math.pi / 180
-    rad_lat1 = lat1 * math.pi / 180
-    rad_lon2 = lon2 * math.pi / 180
-    rad_lat2 = lat2 * math.pi / 180
-    dlon = rad_lon2 - rad_lon1
-    dlat = rad_lat2 - rad_lat1
-    a = (math.sin(dlat / 2))**2 + math.cos(rad_lat1) * \
-        math.cos(rad_lat2) * (math.sin(dlon / 2))**2
+def get_distance(longitude1, latitude1, longitude2, latitude2):
+    radian_longitude1 = longitude1 * math.pi / 180
+    radian_latitude1 = latitude1 * math.pi / 180
+    radian_longitude2 = longitude2 * math.pi / 180
+    radian_latitude2 = latitude2 * math.pi / 180
+    dlongitude = radian_longitude2 - radian_longitude1
+    dlatitude = radian_latitude2 - radian_latitude1
+    a = (math.sin(dlatitude / 2))**2 + math.cos(radian_latitude1) * \
+        math.cos(radian_latitude2) * (math.sin(dlongitude / 2))**2
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-    R = 6371  # The radius of the Earth
-    d = R * c
-    return d
+    earth_radius = 6371
+    distance = earth_radius * c
+    return distance
 
 
 def get_closest_bar(data, longitude, latitude):
-    l = []
-    for el in data['features']:
-        coordinates = el['geometry']['coordinates']
-        qdistance = get_distance(coordinates[0], coordinates[
-                                 1], longitude, latitude)
-        l.append(qdistance)
-    i = l.index(min(l))
-    return data['features'][i]
+    coordinates_of_bars = []
+    for bar in data['features']:
+        coordinates = bar['geometry']['coordinates']
+        distance = get_distance(coordinates[0], coordinates[
+            1], longitude, latitude)
+        coordinates_of_bars.append(distance)
+    index_of_bar = coordinates_of_bars.index(min(coordinates_of_bars))
+    return data['features'][index_of_bar]
+
+
+def print_result(data, filename):
+    if filename:
+        with open(filename, 'w+', encoding='utf-8') as file:
+            json.dump(data, file, ensure_ascii=False)
+    else:
+        print(data)
 
 
 if __name__ == '__main__':
@@ -64,30 +72,18 @@ if __name__ == '__main__':
     option = int(input('Type option number: '))
 
     if option == 1:
-        ret = get_biggest_bar(data)
-        if len(o_filename) > 0:
-            with open(o_filename, 'w+', encoding='utf-8') as f:
-                json.dump(ret, f, ensure_ascii=False)
-        else:
-            print(ret)
+        bar = get_biggest_bar(data)
+        print_result(bar, o_filename)
 
     elif option == 2:
-        ret = get_smallest_bar(data)
-        if len(o_filename) > 0:
-            with open(o_filename, 'w+', encoding='utf-8') as f:
-                json.dump(ret, f, ensure_ascii=False)
-        else:
-            print(ret)
+        bar = get_smallest_bar(data)
+        print_result(bar, o_filename)
 
     elif option == 3:
         longitude = float(input('longitude: '))
         latitude = float(input('latitude: '))
-        ret = get_closest_bar(data, longitude, latitude)
-        if len(o_filename) > 0:
-            with open(o_filename, 'w+', encoding='utf-8') as f:
-                json.dump(ret, f, ensure_ascii=False)
-        else:
-            print(ret)
+        bar = get_closest_bar(data, longitude, latitude)
+        print_result(bar, o_filename)
 
     else:
         raise ValueError('{0} is invalid option.'.format(option))
