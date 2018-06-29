@@ -6,8 +6,7 @@
 На сайте data.mos.ru есть список московских баров.
 Чтобы скачать файл в json-формате нужно:
 1. Зарегистрироваться на сайте и получить ключ API;
-2. Скачать файл по ссылке вида https://apidata.mos.ru/v1/features/1796?api_key={place_your_API_key_here}.
-=======
+2. Скачать файл по ссылке вида https://apidata.mos.ru/v1/features/1796?api_key={place_your_API_key_here}
     
 Выходные данные:
 json-текст или json-файл с информацией о ближайшем баре
