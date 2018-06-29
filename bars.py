@@ -6,22 +6,22 @@ import math
 
 def load_data(filepath):
     with open(filepath, encoding='utf-8') as file:
-        data = json.load(file)
-    return data
+        bars = json.load(file)
+    return bars
 
 
-def get_biggest_bar(data):
+def get_biggest_bar(bars):
     bars_seats_count = [bar['properties']['Attributes']['SeatsCount']
-                        for bar in data['features']]
+                        for bar in bars['features']]
     index_of_bar = bars_seats_count.index(max(bars_seats_count, key=abs))
-    return data['features'][index_of_bar]
+    return bars['features'][index_of_bar]
 
 
-def get_smallest_bar(data):
+def get_smallest_bar(bars):
     bars_seats_count = [bar['properties']['Attributes']['SeatsCount']
-                        for bar in data['features']]
+                        for bar in bars['features']]
     index_of_bar = bars_seats_count.index(min(bars_seats_count, key=abs))
-    return data['features'][index_of_bar]
+    return bars['features'][index_of_bar]
 
 
 def get_distance(longitude1, latitude1, longitude2, latitude2):
@@ -39,23 +39,23 @@ def get_distance(longitude1, latitude1, longitude2, latitude2):
     return distance
 
 
-def get_closest_bar(data, longitude, latitude):
+def get_closest_bar(bars, longitude, latitude):
     coordinates_of_bars = []
-    for bar in data['features']:
+    for bar in bars['features']:
         coordinates = bar['geometry']['coordinates']
         distance = get_distance(coordinates[0], coordinates[
             1], longitude, latitude)
         coordinates_of_bars.append(distance)
     index_of_bar = coordinates_of_bars.index(min(coordinates_of_bars))
-    return data['features'][index_of_bar]
+    return bars['features'][index_of_bar]
 
 
-def print_result(data, filename):
+def print_result(bars, filename):
     if filename:
         with open(filename, 'w+', encoding='utf-8') as file:
-            json.dump(data, file, ensure_ascii=False)
+            json.dump(bars, file, ensure_ascii=False)
     else:
-        print(data)
+        print(bars)
 
 
 if __name__ == '__main__':
@@ -63,7 +63,7 @@ if __name__ == '__main__':
     o_filename = ''
     if(len(sys.argv) == 3):
         o_filename = sys.argv[2]
-    data = load_data(i_filename)
+    bars = load_data(i_filename)
 
     print('Choose option:')
     print('1 - Find the biggest bar.')
@@ -72,17 +72,17 @@ if __name__ == '__main__':
     option = int(input('Type option number: '))
 
     if option == 1:
-        bar = get_biggest_bar(data)
+        bar = get_biggest_bar(bars)
         print_result(bar, o_filename)
 
     elif option == 2:
-        bar = get_smallest_bar(data)
+        bar = get_smallest_bar(bars)
         print_result(bar, o_filename)
 
     elif option == 3:
         longitude = float(input('longitude: '))
         latitude = float(input('latitude: '))
-        bar = get_closest_bar(data, longitude, latitude)
+        bar = get_closest_bar(bars, longitude, latitude)
         print_result(bar, o_filename)
 
     else:
